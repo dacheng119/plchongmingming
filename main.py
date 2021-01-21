@@ -112,13 +112,13 @@ def procrename(event):
         rename(rootdir, oldext, newext)
 
 
-def showAbout(event):
-    showinfo("About", """版本：1.0
-作者：橙子 <8194119@qq.com>
-日期：2021年1月20日
-说明：2020年1月，因新型冠状病毒肆虐被要求在家隔离，无聊中完成此程序,希望能给大家的工作带来一些便利!
-致谢：本程序基于Python 3.8.5。感谢Python，感谢PyCharm!
-其它：程序允许任意传播，有兴趣的话可以联系我索要源码。""")
+def showabout(event):
+    showinfo("About", """作者：橙子 <hebdacheng@gmail.com>
+版本：1.0
+版权：程序遵守GPL协议，允许任意传播。源码放在https://github.com/dacheng119/plchongmingming
+致谢：本程序基于Python 3.8.5，感谢Python，感谢PyCharm!
+说明：2021年1月，因新冠病毒肆虐在家隔离。无聊中完成此程序,希望能给大家带来一些便利！""")
+
 
 
 top = Tk()
@@ -156,7 +156,7 @@ text = Text(
     width=40,
     height=24)
 text.grid(row=4, column=0, columnspan=3, padx=0, pady=5)
-text.bind("<Double-Button-1>", showAbout)
+text.bind("<Double-Button-1>", showabout)
 
 sb1.configure(command=text.yview)
 # sb2.configure(command=text.xview)
