@@ -4,6 +4,7 @@ from tkinter import *
 from tkinter.filedialog import askdirectory
 from tkinter.messagebox import showerror
 from tkinter.messagebox import showinfo
+# from tkinter.ttk import *
 import os
 
 
@@ -122,7 +123,7 @@ def showAbout(event):
 
 top = Tk()
 top.title("批量重命名")
-top.geometry("320x500")
+top.geometry("350x500")
 top.resizable(0, 0)
 
 path = StringVar()
@@ -144,12 +145,12 @@ Label(top, text="新扩展名").grid(row=2, column=0, sticky="w", pady=5)
 Entry(top, borderwidth=2, textvariable=newExt).grid(row=2, column=1, pady=5)
 Checkbutton(top, text="递归处理", variable=bianLi).grid(row=3, sticky="w", pady=5)
 
-#sb1 = Scrollbar(top, orient="vertical")
+sb1 = Scrollbar(top, orient="vertical")
 # sb2 = Scrollbar(top,orient="horizontal")
 text = Text(
     top,
     state="disabled",
-    # yscrollcommand=sb1.set,
+    yscrollcommand=sb1.set,
     # xscrollcommand=sb2.set,
     borderwidth=2,
     width=40,
@@ -157,9 +158,9 @@ text = Text(
 text.grid(row=4, column=0, columnspan=3, padx=0, pady=5)
 text.bind("<Double-Button-1>", showAbout)
 
-# sb1.configure(command=text.yview)
+sb1.configure(command=text.yview)
 # sb2.configure(command=text.xview)
-# sb1.grid(row=4, column=3, sticky="ns", padx=0)
+sb1.grid(row=4, column=3, sticky="ns", padx=0)
 # sb2.grid(row=5,column=0,columnspan=3,sticky="we",pady=0)
 
 okButton=Button(top, text="确  定(O)", underline=5)# command=procrename)
