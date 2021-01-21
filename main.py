@@ -8,7 +8,7 @@ from tkinter.messagebox import showinfo
 import os
 
 
-def selectpath(event):
+def selectpath():
     """回调函数，用于返回用户选择的路径"""
     path_ = askdirectory()
     path.set(path_)
@@ -120,7 +120,6 @@ def showabout(event):
 说明：2021年1月，因新冠病毒肆虐在家隔离。无聊中完成此程序,希望能给大家带来一些便利！""")
 
 
-
 top = Tk()
 top.title("批量重命名")
 top.geometry("350x500")
@@ -133,11 +132,25 @@ bianLi = StringVar(value="1")
 
 Label(top, text="目标文件夹").grid(row=0, column=0, pady=5, sticky="w")
 Entry(top, textvariable=path, borderwidth=2).grid(row=0, column=1, pady=5)
-selectButton=Button(top, text="选择目标\n\n文件夹(S)", underline=10, fg="green", font=("黑体", 12, "bold"), borderwidth=2, command=selectpath)
-selectButton.grid(row=0, column=2, rowspan=3, sticky="n" + "s" + "w" + "e", padx=2, pady=5)
-selectButton.bind("<Button-1>", selectpath)
-selectButton.bind_all("<Alt-s>", selectpath)
-selectButton.bind_all("<Alt-S>", selectpath)
+Button(
+    top,
+    text="选择目标\n\n文件夹",
+    fg="green",
+    font=(
+        "黑体",
+        12,
+        "bold"),
+    borderwidth=2,
+    command=selectpath).grid(
+    row=0,
+    column=2,
+    rowspan=3,
+    sticky="n" +
+    "s" +
+    "w" +
+    "e",
+    padx=2,
+    pady=5)
 
 Label(top, text="原扩展名").grid(row=1, column=0, sticky="w", pady=5)
 Entry(top, borderwidth=2, textvariable=oldExt).grid(row=1, column=1, pady=5)
@@ -163,7 +176,7 @@ sb1.configure(command=text.yview)
 sb1.grid(row=4, column=3, sticky="ns", padx=0)
 # sb2.grid(row=5,column=0,columnspan=3,sticky="we",pady=0)
 
-okButton=Button(top, text="确  定(O)", underline=5)# command=procrename)
+okButton = Button(top, text="确  定(O)", underline=5)  # command=procrename)
 okButton.grid(row=6, column=0, sticky="e", ipadx=10)
 okButton.bind_all("<Alt-o>", procrename)
 okButton.bind_all("<Alt-O>", procrename)
