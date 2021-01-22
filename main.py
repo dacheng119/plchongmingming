@@ -12,7 +12,6 @@ def selectpath():
     path_ = askdirectory()
     path.set(path_)
 
-
 def cleanall(event):
     """清除所有的Entry和text的内容"""
     path.set("")
@@ -110,7 +109,7 @@ def showhelp():
 扩展名指的是文件的后缀，无论原扩展名还是新扩展名，输入时都要求输入英文的圆点。\
 选中递归处理后，表示既要处理目标文件夹，也要处理子文件夹中的文件。反之表示仅仅处理目标文件夹，而不会处理其子文件夹。
 
-说明：2021年1月因新冠病毒肆虐在家隔离，为把所有的.ppsx文件重命名为.ppt文件，就写了这个程序。""")
+说明：2021年1月因新冠病毒肆虐在家隔离，为把所有的.ppsx文件重命名为.ppt文件，就编写了此程序。""")
 
 
 top = Tk()
@@ -122,9 +121,12 @@ path = StringVar()
 oldExt = StringVar()
 newExt = StringVar()
 bianLi = StringVar(value="1")
+# style = Style(top)
+# style.configure("pathstyle", borderwidth=2)
 
 Label(top, text="目标文件夹").grid(row=0, column=0, pady=5, sticky="w")
 Entry(top, textvariable=path, borderwidth=2).grid(row=0, column=1, pady=5)
+# Entry(top, textvariable=path, style="pathstyle").grid(row=0, column=1, pady=5)
 Button(
     top,
     text="选择目标\n\n文件夹",
@@ -138,10 +140,7 @@ Button(
     row=0,
     column=2,
     rowspan=3,
-    sticky="n" +
-    "s" +
-    "w" +
-    "e",
+    sticky="nswe",
     padx=2,
     pady=5)
 
