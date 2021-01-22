@@ -53,6 +53,7 @@ def cleantext():
 
 def rename(rootdir, oldext, newext):
     """不遍历子目录，仅把当前目录的文件重命名"""
+    n = 0
     text.configure(state="normal")
     root, dirs, files = next(os.walk(rootdir))
     for file in files:
@@ -63,11 +64,14 @@ def rename(rootdir, oldext, newext):
             newFile = os.path.join(root, newName)
             os.rename(oldFile, newFile)
             text.insert("insert", "{} -> {}\n\n".format(file, newName))
+            n += 1
     text.configure(state="disabled")
+    return n
 
 
 def renameall(rootdir, oldext, newext):
     """遍历子目录，进行重命名"""
+    n = 0
     text.configure(state="normal")
     for root, dirs, files in os.walk(rootdir):
         for file in files:
@@ -78,7 +82,9 @@ def renameall(rootdir, oldext, newext):
                 newFile = os.path.join(root, newName)
                 os.rename(oldFile, newFile)
                 text.insert("insert", "{} -> {}\n\n".format(file, newName))
+                n += 1
     text.configure(state="disabled")
+    return n
 
 
 def procrename():
@@ -99,17 +105,24 @@ def procrename():
         showerror("错误", "{}不是一个文件夹！".format(rootdir))
         return
 
-    if "\\" in rootdir:
-        showerror("错误", "考虑到跨平台应用，你应该使用C:/DIR1/DIR2的形式！")
+    # if "\\" in rootdir:
+        # path_ = path.get()
+        # path_.replace("\\", "/")
+        # path.set(path_)
+        # showerror("错误", "考虑到跨平台应用，你应该使用C:/DIR1/DIR2的形式！")
 
     if not oldext.startswith(".") or not newext.startswith("."):
         showerror("错误", "原后缀和新后缀必须以圆点开始，\n例如.txt是正确的，txt是错误的！")
         return
 
     if bianLi.get() == "1":
-        renameall(rootdir, oldext, newext)
+        n = renameall(rootdir, oldext, newext)
     else:
-        rename(rootdir, oldext, newext)
+        n = rename(rootdir, oldext, newext)
+    text.configure(state="normal")
+    text.insert("insert", "\n")
+    text.insert("insert", "*** 总共重命名了%d个文件 ***" %n)
+    text.configure(state="disabled")
 
 def procrenameclick(event):
     procrename()
@@ -128,11 +141,11 @@ def showhelp():
 扩展名指的是文件的后缀，无论原扩展名还是新扩展名，输入时都要求输入英文的圆点。\
 选中递归处理后，表示既要处理目标文件夹，也要处理子文件夹中的文件。反之表示仅仅处理目标文件夹，而不会处理其子文件夹。
 
-说明：2021年1月，因新冠病毒肆虐在家隔离，期间完成此程序。""")
+说明：2021年1月因新冠病毒肆虐在家隔离，为把所有的.ppsx文件重命名为.ppt文件，就写了这个程序。""")
+
 
 def showhelpclick(event):
     showhelp()
-
 
 top = Tk()
 top.title("批量重命名")
