@@ -4,7 +4,7 @@ from tkinter import *
 from tkinter.filedialog import askdirectory
 from tkinter.messagebox import showerror
 from tkinter.messagebox import showinfo
-# from tkinter.ttk import *
+from tkinter.ttk import *
 import os
 
 def selectpath():
@@ -114,73 +114,70 @@ def showhelp():
 
 top = Tk()
 top.title("批量重命名")
-top.geometry("315x500")
+top.geometry("310x500")
 top.resizable(0, 0)
 
 path = StringVar()
 oldExt = StringVar()
 newExt = StringVar()
 bianLi = StringVar(value="1")
-# style = Style(top)
-# style.configure("pathstyle", borderwidth=2)
 
-Label(top, text="目标文件夹").grid(row=0, column=0, pady=5, sticky="w")
-Entry(top, textvariable=path, borderwidth=2).grid(row=0, column=1, pady=5)
-# Entry(top, textvariable=path, style="pathstyle").grid(row=0, column=1, pady=5)
-Button(
-    top,
-    text="选择目标\n\n文件夹",
-    fg="green",
-    font=(
-        "黑体",
-        12,
-        "bold"),
-    borderwidth=2,
-    command=selectpath).grid(
-    row=0,
-    column=2,
-    rowspan=3,
-    sticky="nswe",
-    padx=2,
-    pady=5)
+style = Style()
+style.configure("Entry.TEntry", borderwidth=2)
+style.configure("Button.TButton", borderwieth=2)
 
-Label(top, text="原扩展名").grid(row=1, column=0, sticky="w", pady=5)
-Entry(top, borderwidth=2, textvariable=oldExt).grid(row=1, column=1, pady=5)
-Label(top, text="新扩展名").grid(row=2, column=0, sticky="w", pady=5)
-Entry(top, borderwidth=2, textvariable=newExt).grid(row=2, column=1, pady=5)
-Checkbutton(top, text="递归处理", variable=bianLi).grid(row=3, sticky="w", pady=5)
+frame1 = Frame(top)
+Label(frame1, text="目标文件夹").grid(row=0, column=0, sticky="w", padx=1, pady=2)
+Label(frame1, text="原扩展名").grid(row=1, column=0, sticky="w", padx=1, pady=2)
+Label(frame1, text="新扩展名").grid(row=2, column=0, sticky="w", padx=1, pady=2)
+Entry(frame1, style="Entry.TEntry", textvariable=path).grid(row=0, column=1, padx=1, pady=2, sticky="w")
+Entry(frame1, style="Entry.TEntry", textvariable=oldExt).grid(row=1, column=1, padx=1, pady=2, sticky="w")
+Entry(frame1, style="Entry.TEntry", textvariable=newExt).grid(row=2, column=1, padx=1, pady=2, sticky="w")
+selectBut=Button(frame1, text="选 择(S) \n文 件 夹", command=selectpath)
+selectBut.grid(row=0, column=2, rowspan=3, padx=3, sticky="nswe")
+selectBut.bind_all("<Alt-s>", lambda event:selectpath())
+selectBut.bind_all("<Alt-S>", lambda event:selectpath())
+frame1.grid(row=0, column=0, sticky="w", pady=2)
 
-# sb1 = Scrollbar(top, orient="vertical")
-# sb2 = Scrollbar(top,orient="horizontal")
+Checkbutton(top, text="递归处理", variable=bianLi).grid(row=1, column=0, sticky="w", pady=2)
+
+frame2=Frame(top)
+sb1 = Scrollbar(frame2, orient="vertical")
+sb2 = Scrollbar(frame2,orient="horizontal")
+
 text = Text(
-    top,
+    frame2,
     state="disabled",
-    # yscrollcommand=sb1.set,
-    # xscrollcommand=sb2.set,
+    wrap="none",
+    yscrollcommand=sb1.set,
+    xscrollcommand=sb2.set,
     borderwidth=2,
     width=40,
     height=24)
-text.grid(row=4, column=0, columnspan=3, padx=0, pady=5)
-# text.bind("<Double-Button-1>", showabout)
+text.grid(row=0, column=0, columnspan=2, padx=2, pady=2, sticky="w")
 
-# sb1.configure(command=text.yview)
-# sb2.configure(command=text.xview)
-# sb1.grid(row=4, column=3, sticky="ns", padx=0)
-# sb2.grid(row=5,column=0,columnspan=3,sticky="we",pady=0)
+sb1.configure(command=text.yview)
+sb2.configure(command=text.xview)
+sb1.grid(row=0, column=2, sticky="nsw", padx=0)
+sb2.grid(row=1, column=0, columnspan=2, sticky="we", pady=0)
+frame2.grid(row=2, column=0, sticky="w", padx=2,pady=5)
 
-okButton = Button(top, text="确  定(O)", underline=5, command=procrename)
-okButton.grid(row=6, column=0, sticky="e", ipadx=10)
+frame3 = Frame(top)
+okButton = Button(frame3, text="确  定(O)", underline=5, command=procrename, style="Button.TButton")
+cleanButton = Button(frame3, text="清  除(C)", underline=5, style="Button.TButton")
+helpButton = Button(frame3, text="帮  助(H)", underline=5, command=showhelp, style="Button.TButton")
+okButton.grid(row=2, column=0, sticky="w", padx=2)
+cleanButton.grid(row=2, column=1, padx=12)
+helpButton.grid(row=2, column=2, sticky="e", padx=2)
+frame3.grid(row=3, column=0, sticky="w", padx=2,pady=5)
+
 okButton.bind_all("<Alt-o>", lambda event:procrename())
 okButton.bind_all("<Alt-O>", lambda event:procrename())
 
-cleanButton = Button(top, text="清  除(C)", underline=5)
-cleanButton.grid(row=6, column=1, ipadx=10)
 cleanButton.bind_all("<Alt-c>", cleanall)
 cleanButton.bind_all("<Alt-C>", cleanall)
 cleanButton.bind("<Button-1>", cleanall)
 
-helpButton = Button(top, text="帮  助(H)", underline=5, command=showhelp)
-helpButton.grid(row=6, column=2, sticky="w", ipadx=10)
 helpButton.bind_all("<Alt-h>", lambda event:showhelp())
 helpButton.bind_all("<Alt-H>", lambda event:showhelp())
 
