@@ -126,6 +126,7 @@ newExt = StringVar()
 bianLi = StringVar(value="1")
 
 style = Style()
+# style.theme_use("vista")
 style.configure("Entry.TEntry", borderwidth=2)
 style.configure("Button.TButton", borderwieth=2)
 
